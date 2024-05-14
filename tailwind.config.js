@@ -7,9 +7,12 @@ module.exports = {
     './app/Views/**/**/**/*.php',
     './node_modules/flowbite/**/*.js',
   ],
-  darkMode: 'class',
+  darkMode: ['selector', '[data-mode="dark"]'],
   theme: {
     extend: {
+      backgroundImage: {
+        'nav-gradient': 'linear-gradient(to right, #efefbb, #d4d3dd)',
+      },
       colors: {
         primary: {
           50: '#eff6ff',

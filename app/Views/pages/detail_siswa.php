@@ -15,7 +15,7 @@
         <p class="badge badge-ghost badge-lg my-1">Tanggal Lahir : <?= date("F jS, Y", strtotime($siswa['tanggal_lahir'])); ?></p>
         <p class="badge badge-ghost badge-lg my-1">Jenis Kelamin : <?= $siswa['jenis_kelamin']; ?></p>
         <p class="badge badge-ghost badge-lg my-1">Kelas : <?= $siswa['kelas']; ?></p>
-        <p class="badge badge-ghost badge-lg my-1">Point : <?= $siswa['point']; ?></p>
+        <p class="badge badge-ghost badge-lg my-1">Point : <?= $siswa['poin']; ?></p>
     </div>
     <div class="my-10 w-1/2 xl:mx-10">
         <div class="stats shadow xl:w-[75%]">

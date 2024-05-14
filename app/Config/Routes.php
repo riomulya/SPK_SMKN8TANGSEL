@@ -15,3 +15,5 @@ $routes->get('/penghargaan', 'Pages::penghargaan');
 $routes->get('/pelanggaran', 'Pages::pelanggaran');
 
 $routes->get('/peraturan', 'TataTertib::index');
+$routes->get('/settings/siswa', 'Settings::index');
+$routes->get('/settings/guru', 'Settings::guru');
