@@ -5,9 +5,14 @@ module.exports = {
     './app/Views/**/*.php',
     './app/Views/**/**/*.php',
     './app/Views/**/**/**/*.php',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [require('daisyui')],
+  plugins: [
+    require('flowbite/plugin')({
+      charts: true,
+    }),
+  ],
 };

@@ -27,17 +27,25 @@
                     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
 
-                <form class="max-w-md mx-auto p-5">
+                <form action="/komik/save" method="post" class="max-w-md mx-auto p-5">
+                    <?= csrf_field() ?>
                     <div class="relative z-0 w-full mb-5 group">
                         <input type="text" name="pelanggaran_input" id="pelanggaran_input" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                         <label for="pelanggaran_input" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Jenis Pelanggaran</label>
                     </div>
-                    <div class="relative z-0 w-full mb-5 group">
+                    <label for="kategori_pelanggaran_sel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih kategori pelanggaran</label>
+                    <select onchange="checkSelectedOption('pelanggaran')" id="kategori_pelanggaran_sel" class="bg-gray-50 my-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>Pilih Satu</option>
+                        <?php foreach ($pelanggaran as $pl) : ?>
+                            <option><?= $pl["kategori"]; ?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <div class="relative z-0 w-full mb-5 group sect_pelanggaran">
                         <input type="text" name="kategori_pelanggaran" id="kategori_pelanggaran" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                        <label for="kategori_pelanggaran" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kategori</label>
+                        <label id="label_kategori_pelanggaran" for="kategori_pelanggaran" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tambah Kategori Pelanggaran</label>
                     </div>
                     <div class="relative z-0 w-full mb-5 group">
-                        <input type="number" min="1" name="point_pelanggaran" id="point_pelanggaran" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <input type="number" max="-1" name="point_pelanggaran" id="point_pelanggaran" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                         <label for="point_pelanggaran" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Point Pelanggaran</label>
                     </div>
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
@@ -147,9 +155,16 @@
                         <input type="text" name="penghargaan_input" id="penghargaan_input" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                         <label for="penghargaan_input" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Jenis Penghargaan</label>
                     </div>
+                    <label for="kategori_penghargaan_sel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih kategori penghargaan</label>
+                    <select onchange="checkSelectedOption('penghargaan')" id="kategori_penghargaan_sel" class="bg-gray-50 my-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option>Pilih Satu</option>
+                        <?php foreach ($penghargaan as $ph) : ?>
+                            <option><?= $ph["kategori"]; ?></option>
+                        <?php endforeach ?>
+                    </select>
                     <div class="relative z-0 w-full mb-5 group">
                         <input type="text" name="kategori_penghargaan" id="kategori_penghargaan" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                        <label for="kategori_penghargaan" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kategori</label>
+                        <label id="label_kategori_penghargaan" for="kategori_penghargaan" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Kategori</label>
                     </div>
                     <div class="relative z-0 w-full mb-5 group">
                         <input type="number" min="1" name="point_penghargaan" id="point_penghargaan" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -232,6 +247,21 @@
 
 </div>
 
+<script>
+    function checkSelectedOption(type) {
+        var selectElement = document.getElementById(`kategori_${type}_sel`);
+        var inputElement = document.getElementById(`kategori_${type}`);
+        var labelElement = document.getElementById(`label_kategori_${type}`);
 
+        if (selectElement.value == "Pilih Satu") {
+            inputElement.disabled = false;
+            labelElement.innerHTML = `Tambah Kategori ${type}`;
+
+        } else {
+            inputElement.disabled = true;
+            labelElement.innerHTML = "Kategori Sudah Terisi Di atas";
+        }
+    }
+</script>
 
 <?= $this->endSection(); ?>

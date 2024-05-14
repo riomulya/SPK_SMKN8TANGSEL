@@ -30,4 +30,10 @@ class TataTertib extends BaseController
 
         return view("pages/peraturan/tata_tertib", $data);
     }
+
+
+    public function save()
+    {
+        $this->request->getVar();
+    }
 }
