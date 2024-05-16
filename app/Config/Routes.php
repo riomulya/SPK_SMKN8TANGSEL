@@ -5,15 +5,17 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('/dashboard', 'Pages::dashboard');
+$routes->get('/', 'HomeController::index');
+$routes->get('/dashboard', 'DashboardController::dashboard');
 
-$routes->get('/daftar-siswa', 'Siswa::daftarSiswa');
-$routes->get('/daftar-siswa/(:num)', 'Siswa::detailSiswa/$1');
+$routes->get('/daftar-siswa', 'SiswaController::daftarSiswa');
+$routes->get('/daftar-siswa/(:num)', 'SiswaController::detailSiswa/$1');
 
-$routes->get('/penghargaan', 'Pages::penghargaan');
-$routes->get('/pelanggaran', 'Pages::pelanggaran');
+$routes->get('/settings/siswa', 'SettingsController::index');
+$routes->get('/settings/guru', 'SettingsController::guru');
 
-$routes->get('/peraturan', 'TataTertib::index');
-$routes->get('/settings/siswa', 'Settings::index');
-$routes->get('/settings/guru', 'Settings::guru');
+$routes->get('/settings/tata-tertib', 'TataTertibController::index');
+
+$routes->post('/settings/tata-tertib/delete/(:any)', 'TataTertibController::delete/$1');
+$routes->post('/settings/tata-tertib/insert', 'TataTertibController::insert');
+$routes->post('/settings/tata-tertib/update/(:any)', 'TataTertibController::update/$1');

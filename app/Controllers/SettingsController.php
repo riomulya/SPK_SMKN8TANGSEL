@@ -4,17 +4,20 @@ namespace App\Controllers;
 
 use App\Models\GuruModel;
 use App\Models\SiswaModel;
+use App\Models\TataTertibModel;
 
-class Settings extends BaseController
+class SettingsController extends BaseController
 {
     protected $siswaModel;
     protected $guruModel;
+    protected $tataTertibModel;
 
 
     public function __construct()
     {
         $this->siswaModel = new SiswaModel();
         $this->guruModel = new GuruModel();
+        $this->tataTertibModel = new TataTertibModel;
         helper('date');
     }
 
@@ -45,15 +48,24 @@ class Settings extends BaseController
 
     public function tataTertib(): string
     {
-        // $siswa = $this->siswaModel->find($nisn);
-        $siswa = $this->siswaModel->findAll();
+        $tata_tertib = $this->tataTertibModel->findAll();
 
         $data = [
-            'title' => 'Daftar Siswa',
-            'siswa' => $siswa
+            'title' => 'Tata Tertib Siswa',
+            'tata_tertib' => $tata_tertib
         ];
 
+        return view('pages/settings/tata_tertib', $data);
+    }
 
-        return view('pages/settings/siswa', $data);
+    public function deleteTataTertib($id)
+    {
+        try {
+            $this->tataTertibModel->delete($id);
+            return redirect()->to('/settings/tata-tertib')->with('success', 'Data berhasil dihapus.');
+        } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            $error_message = "Tidak dapat menghapus item";
+            return redirect()->to('/settings/tata-tertib')->with('error', $error_message);
+        }
     }
 }

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SiswaModel;
 
-class Siswa extends BaseController
+class SiswaController extends BaseController
 {
     protected $siswaModel;
 
