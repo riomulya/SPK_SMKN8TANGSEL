@@ -13,7 +13,7 @@
     "test": "tests"
   },
   "dependencies": {
-    "apexcharts": "^3.49.0",
+    "apexcharts": "^3.49.1",
     "camelcase-css": "^2.0.1",
     "css-selector-tokenizer": "^0.8.0",
     "cssesc": "^3.0.0",

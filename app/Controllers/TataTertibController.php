@@ -40,7 +40,7 @@ class TataTertibController extends BaseController
                 return redirect()->to('/settings/tata-tertib')->with('error', 'Tidak dapat menghapus data. data tersebut sudah digunakan di tempat lain.');
             } else {
                 // Jika terjadi kesalahan lain
-                return redirect()->to('/settings/tata-tertib')->with('error', 'Gagal memperbarui data.');
+                return redirect()->to('/settings/tata-tertib')->with('error', 'Gagal menghapus data.');
             }
         }
     }

@@ -21,17 +21,7 @@ class SettingsController extends BaseController
         helper('date');
     }
 
-    public function index(): string
-    {
-        $siswa = $this->siswaModel->findAll();
 
-        $data = [
-            'title' => 'Settings Data siswa',
-            'siswa' => $siswa
-        ];
-
-        return view("pages/settings/siswa", $data);
-    }
 
     public function guru(): string
     {
