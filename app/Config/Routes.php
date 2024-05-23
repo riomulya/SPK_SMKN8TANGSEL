@@ -31,3 +31,8 @@ $routes->post('/settings/guru/update/(:any)', 'GuruController::update/$1');
 
 
 $routes->get('/detail-siswa/(:any)', 'SiswaController::detailSiswa/$1');
+
+
+$routes->get('/lapor', 'LaporController::index');
+$routes->post('/login', 'AuthController::login');
+$routes->get('/logout', 'AuthController::logout');

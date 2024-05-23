@@ -1,4 +1,4 @@
-<head>
+<head >
     <meta charset="UTF-8">
     <title><?= $title; ?> | SMKN 8 TANGSEL</title>
     <meta name="description" content="The small framework with powerful features">

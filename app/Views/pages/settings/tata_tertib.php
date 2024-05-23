@@ -72,7 +72,7 @@ function showToast($type, $message)
 
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-10 my-10">
-    <div class="pb-4 bg-white dark:bg-gray-900 flex justify-between mt-2 ms-2">
+    <div class="pb-4 bg-white dark:bg-slate-600 flex justify-between mt-2 ms-2">
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative mt-1">
             <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">

@@ -9,6 +9,6 @@ class HomeController extends BaseController
         $data = [
             'title' => "Sistem Penilaian Karakter"
         ];
-        return view('landing_page', $data);
+        return view('login_page', $data);
     }
 }

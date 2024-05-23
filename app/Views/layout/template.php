@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <?php
 echo view("layout/head");
 ?>
 
-<body>
+<body class="dark:bg-slate-600">
     <?php
     echo view('layout/nav');
     ?>

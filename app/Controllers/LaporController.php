@@ -2,27 +2,27 @@
 
 namespace App\Controllers;
 
-use App\Models\GuruModel;
+use App\Models\SiswaModel;
 use App\Models\UserModel;
 
 class LaporController extends BaseController
 {
-    protected $guruModel;
+    protected $siswaModel;
     protected $userModel;
 
     public function __construct()
     {
-        $this->guruModel = new GuruModel();
+        $this->siswaModel = new SiswaModel();
         $this->userModel = new UserModel();
     }
 
     public function index(): string
     {
-        $guru = $this->guruModel->findAll();
+        $siswa = $this->siswaModel->findAll();
 
         $data = [
-            'title' => 'Settings Data Guru',
-            'guru' => $guru
+            'title' => 'Settings Data Siswa',
+            'siswa' => $siswa
         ];
 
         return view('pages/pelaporan/lapor_siswa', $data);

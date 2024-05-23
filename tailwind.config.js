@@ -7,7 +7,7 @@ module.exports = {
     './app/Views/**/**/**/*.php',
     './node_modules/flowbite/**/*.js',
   ],
-  darkMode: ['selector', '[data-mode="dark"]'],
+  darkMode: 'selector',
   theme: {
     extend: {
       backgroundImage: {
