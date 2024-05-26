@@ -9,6 +9,10 @@ class DashboardController extends BaseController
         $data = [
             'title' => "Dashboard Penilaian Karakter"
         ];
-        return view('/pages/dashboard/dashboard_admin', $data);
+        if (session('isLoggedIn') && session('role') !== 'siswa') {
+            return view('/pages/dashboard/dashboard_admin', $data);
+        } else {
+            return view('/pages/dashboard/dashboard_siswa', $data);
+        }
     }
 }

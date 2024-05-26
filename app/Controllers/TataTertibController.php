@@ -19,11 +19,18 @@ class TataTertibController extends BaseController
 
     public function index(): string
     {
-        $tata_tertib = $this->tataTertibModel->findAll();
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $tata_tertib = $this->tataTertibModel->search($keyword);
+        } else {
+            $tata_tertib = $this->tataTertibModel;
+        }
 
         $data = [
             'title' => 'Tata Tertib Siswa',
-            'tata_tertib' => $tata_tertib
+            'tata_tertib' => $tata_tertib->paginate(10, 'tata_tertib'),
+            'pager' => $tata_tertib->pager
         ];
 
         return view('pages/settings/tata_tertib', $data);

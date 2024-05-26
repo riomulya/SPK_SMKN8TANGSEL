@@ -19,11 +19,17 @@ class SiswaController extends BaseController
 
     public function index(): string
     {
-        $siswa = $this->siswaModel->findAll();
+        $keyword = $this->request->getVar('keyword');
 
+        if ($keyword) {
+            $siswa = $this->siswaModel->search($keyword);
+        } else {
+            $siswa = $this->siswaModel;
+        }
         $data = [
             'title' => 'Settings Data siswa',
-            'siswa' => $siswa
+            'siswa' => $siswa->paginate(10, 'siswa'),
+            'pager' => $siswa->pager
         ];
 
         return view("pages/settings/siswa", $data);
@@ -134,7 +140,7 @@ class SiswaController extends BaseController
         $poin = 100;
 
         // Ensure $password is assigned correctly
-        $password = str_replace('-', '', $tanggal_lahir);
+        $password = str_replace('-,/', '', $tanggal_lahir);
 
         // Mulai transaksi
         $db = \Config\Database::connect();
@@ -143,6 +149,7 @@ class SiswaController extends BaseController
         /** @var string $password */
         /** @var string $tanggal_lahir */
         $tanggal_lahir_formatted = date('Y-m-d', strtotime($tanggal_lahir));
+        $password = str_replace('-', '', $tanggal_lahir_formatted);
 
         try {
             // Insert ke tabel 'users'

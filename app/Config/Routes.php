@@ -5,34 +5,47 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+$routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
+    $routes->get('/dashboard', 'DashboardController::index');
+
+    $routes->get('/daftar-siswa', 'SiswaController::daftarSiswa');
+    $routes->get('/daftar-siswa/(:num)', 'SiswaController::detailSiswa/$1');
+
+    $routes->get('/detail-siswa/(:any)', 'SiswaController::detailSiswa/$1');
+
+    $routes->get('/lapor', 'LaporController::index');
+    $routes->post('/lapor', 'LaporController::index');
+
+
+    $routes->group('settings', ['filter' => 'rbac'], function ($routes) {
+        $routes->get('tata-tertib', 'TataTertibController::index');
+
+        $routes->post('tata-tertib', 'TataTertibController::index');
+        $routes->post('tata-tertib/delete/(:any)', 'TataTertibController::delete/$1');
+        $routes->post('tata-tertib/insert', 'TataTertibController::insert');
+        $routes->post('tata-tertib/update/(:any)', 'TataTertibController::update/$1');
+
+        $routes->get('siswa', 'SiswaController::index');
+
+        $routes->post('siswa', 'SiswaController::index');
+        $routes->post('siswa/delete/(:any)', 'SiswaController::delete/$1');
+        $routes->post('siswa/insert', 'SiswaController::insert');
+        $routes->post('siswa/update/(:any)', 'SiswaController::update/$1');
+
+        $routes->get('guru', 'GuruController::index');
+
+        $routes->post('guru', 'GuruController::index');
+        $routes->post('guru/delete/(:any)', 'GuruController::delete/$1');
+        $routes->post('guru/insert', 'GuruController::insert');
+        $routes->post('guru/update/(:any)', 'GuruController::update/$1');
+
+        $routes->post('/lapor/siswa/searchSiswa', 'SiswaController::searchSiswa');
+    });
+});
+
+// Rute yang tidak dilindungi oleh filter 'auth'
 $routes->get('/', 'HomeController::index');
-$routes->get('/dashboard', 'DashboardController::index');
-
-$routes->get('/daftar-siswa', 'SiswaController::daftarSiswa');
-$routes->get('/daftar-siswa/(:num)', 'SiswaController::detailSiswa/$1');
-
-
-$routes->get('/settings/tata-tertib', 'TataTertibController::index');
-$routes->post('/settings/tata-tertib/delete/(:any)', 'TataTertibController::delete/$1');
-$routes->post('/settings/tata-tertib/insert', 'TataTertibController::insert');
-$routes->post('/settings/tata-tertib/update/(:any)', 'TataTertibController::update/$1');
-
-
-$routes->get('/settings/siswa', 'SiswaController::index');
-$routes->post('/settings/siswa/delete/(:any)', 'SiswaController::delete/$1');
-$routes->post('/settings/siswa/insert', 'SiswaController::insert');
-$routes->post('/settings/siswa/update/(:any)', 'SiswaController::update/$1');
-
-
-$routes->get('/settings/guru', 'GuruController::index');
-$routes->post('/settings/guru/delete/(:any)', 'GuruController::delete/$1');
-$routes->post('/settings/guru/insert', 'GuruController::insert');
-$routes->post('/settings/guru/update/(:any)', 'GuruController::update/$1');
-
-
-$routes->get('/detail-siswa/(:any)', 'SiswaController::detailSiswa/$1');
-
-
-$routes->get('/lapor', 'LaporController::index');
 $routes->post('/login', 'AuthController::login');
 $routes->get('/logout', 'AuthController::logout');
+
+$routes->get('/unauthorized', 'ErrorController::unauthorized');

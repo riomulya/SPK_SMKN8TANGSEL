@@ -8,6 +8,8 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use \App\Filters\LoginCheck;
+use \App\Filters\RBACFilter;
 
 class Filters extends BaseConfig
 {
@@ -24,6 +26,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'isLoggedIn'    => LoginCheck::class,
+        'rbac'          => RBACFilter::class,
     ];
 
     /**
@@ -34,6 +38,7 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
+            // "isLoggedIn"
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
@@ -65,5 +70,28 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        // "auth"
+        'isLoggedIn' => [
+            'before' => [
+                'dashboard',
+                'dashboard/*',
+                'settings',
+                'settings/*',
+            ],
+        ],
+        'rbac' => [
+            'before' => [
+                'settings/tata-tertib',
+                'settings/siswa',
+                'settings/guru',
+            ],
+        ],
+        // 'role' => [
+        //     'before' => [
+        //         'settings' => ['admin'],
+        //         'settings/*' => ['admin'],
+        //     ],
+        // ],
+    ];
 }

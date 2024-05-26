@@ -8,7 +8,7 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'email';
-    protected $allowedFields = ['email', 'password', 'createdAt', 'updatedAt'];
+    protected $allowedFields = ['email', 'password', 'createdAt', 'updatedAt', 'role'];
     protected $returnType = 'array';
     protected $useTimestamps = false;
 
@@ -20,7 +20,7 @@ class UserModel extends Model
     protected $validationMessages = [
         'email' => [
             'required' => 'Email is required',
-            'valid_email' => 'Please provide a valid email address',
+            // 'valid_email' => 'Please provide a valid email address',
             'is_unique' => 'This email is already registered'
         ],
         'password' => [

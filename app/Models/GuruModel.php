@@ -18,4 +18,10 @@ class GuruModel extends Model
         'createdAt',
         'updatedAt'
     ];
+
+
+    public function search($keyword)
+    {
+        return $this->table('guru')->like('nama', $keyword)->orLike('nip', $keyword)->orLike('email', $keyword)->orLike('kelas_mengajar', $keyword);
+    }
 }

@@ -45,4 +45,9 @@ class SiswaModel extends Model
     ];
 
     protected $skipValidation = false;
+
+    public function search($keyword)
+    {
+        return $this->table('siswa')->like('nama', $keyword)->orLike('nisn', $keyword)->orLike('email', $keyword)->orLike('kelas', $keyword);
+    }
 }

@@ -5,9 +5,9 @@
 
 
 
-<div class="container mx-auto mt-8">
+<div class="container mt-8">
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 mx-5">
         <!-- Total pengguna -->
         <div class="bg-gray-100 p-4 rounded border border-gray-300">
             <h2 class="text-xl font-bold mb-2">Total Pengguna</h2>
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Peringkat Siswa Positif (Hijau) -->
-    <div class="bg-white p-4 rounded mb-8">
+    <div class="bg-dark-800 p-4 rounded mb-8 mx-5">
         <h2 class="text-xl font-bold mb-4 text-green-500">Peringkat Siswa Positif</h2>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -37,37 +37,36 @@
                         <th scope="col" class="px-6 py-3">Poin</th>
                         <th scope="col" class="px-6 py-3">Keterangan</th>
                         <th scope="col" class="px-6 py-3">Peringkat</th>
-                        <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b hover:bg-green-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Michel Johnson</th>
-                        <td class="px-6 py-4">15</td>
-                        <td class="px-6 py-4">Memberi salam kepada dan tersenyum kepada guru</td>
-                        <td class="px-6 py-4">1</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-green-600 hover:underline">Edit</a></td>
+                    <tr class="bg-slate-800 border-b hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">Michel Johnson</th>
+                        <td class="px-6 py-4 text-white">15</td>
+                        <td class="px-6 py-4 text-white">Memberi salam kepada dan tersenyum kepada guru</td>
+                        <td class="px-6 py-4 text-white">1</td>
+
                     </tr>
-                    <tr class="bg-white border-b hover:bg-green-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">David Wilson</th>
+                    <tr class="bg-slate-800 border-b hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">David Wilson</th>
                         <td class="px-6 py-4">15</td>
                         <td class="px-6 py-4">Menyelesaikan tugas dengan baik</td>
                         <td class="px-6 py-4">5</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-green-600 hover:underline">Edit</a></td>
+
                     </tr>
-                    <tr class="bg-white hover:bg-green-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Ethan Perez</th>
+                    <tr class="bg-slate-800 hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">Ethan Perez</th>
                         <td class="px-6 py-4">10</td>
                         <td class="px-6 py-4">Membantu teman</td>
                         <td class="px-6 py-4">6</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-green-600 hover:underline">Edit</a></td>
+
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <!-- Peringkat Siswa Negatif (Merah) -->
-    <div class="bg-white p-4 rounded mb-8">
+    <div class="bg-dark-800 p-4 rounded mb-8 mx-5">
         <h2 class="text-xl font-bold mb-4 text-red-600">Peringkat Siswa Negatif</h2>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -78,30 +77,29 @@
                         <th scope="col" class="px-6 py-3">Poin</th>
                         <th scope="col" class="px-6 py-3">Keterangan</th>
                         <th scope="col" class="px-6 py-3">Peringkat</th>
-                        <th scope="col" class="px-6 py-3"><span class="sr-only">Edit</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b hover:bg-red-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">John</th>
-                        <td class="px-6 py-4 text-gray-900">-10</td>
-                        <td class="px-6 py-4 text-gray-900">Terlambat mengumpulkan tugas</td>
-                        <td class="px-6 py-4 text-gray-900">18</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-red-600 hover:underline">Edit</a></td>
+                    <tr class="bg-slate-800 border-b hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">John</th>
+                        <td class="px-6 py-4 text-white">-10</td>
+                        <td class="px-6 py-4 text-white">Terlambat mengumpulkan tugas</td>
+                        <td class="px-6 py-4 text-white">18</td>
+
                     </tr>
-                    <tr class="bg-white border-b hover:bg-red-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Jane Smith</th>
-                        <td class="px-6 py-4 text-gray-900">-15</td>
-                        <td class="px-6 py-4 text-gray-900">Berkata kasar kepada teman</td>
-                        <td class="px-6 py-4 text-gray-900">8</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-red-600 hover:underline">Edit</a></td>
+                    <tr class="bg-slate-800 border-b hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">Jane Smith</th>
+                        <td class="px-6 py-4 text-white">-15</td>
+                        <td class="px-6 py-4 text-white">Berkata kasar kepada teman</td>
+                        <td class="px-6 py-4 text-white">8</td>
+
                     </tr>
-                    <tr class="bg-white hover:bg-red-50">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">Emily Brown</th>
-                        <td class="px-6 py-4 text-gray-900">-5</td>
-                        <td class="px-6 py-4 text-gray-900">Tidak membawa buku pelajaran</td>
-                        <td class="px-6 py-4 text-gray-900">6</td>
-                        <td class="px-6 py-4 text-right"><a href="#" class="font-medium text-red-600 hover:underline">Edit</a></td>
+                    <tr class="bg-slate-800 hover:bg-slate-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">Emily Brown</th>
+                        <td class="px-6 py-4 text-white">-5</td>
+                        <td class="px-6 py-4 text-white">Tidak membawa buku pelajaran</td>
+                        <td class="px-6 py-4 text-white">6</td>
+
                     </tr>
                 </tbody>
             </table>
@@ -111,20 +109,20 @@
 
 
     <!-- Website traffic -->
-    <div class="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+    <div class="max-w-sm mx-auto w-full bg-slate-800 rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
 
         <div class="flex justify-between items-start w-full">
             <div class="flex-col items-center">
                 <div class="flex items-center mb-1">
-                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">Website traffic</h5>
-                    <svg data-popover-target="chart-info" data-popover-placement="bottom" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <h5 class="text-xl font-bold leading-none text-white dark:text-white me-1">Website traffic</h5>
+                    <svg data-popover-target="chart-info" data-popover-placement="bottom" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-white dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
                     </svg>
-                    <div data-popover id="chart-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                    <div data-popover id="chart-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-slate-800 border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
                         <div class="p-3 space-y-2">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Activity growth - Incremental</h3>
+                            <h3 class="font-semibold text-white dark:text-white">Activity growth - Incremental</h3>
                             <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
+                            <h3 class="font-semibold text-white dark:text-white">Calculation</h3>
                             <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
                             <a href="#" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg class="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
@@ -137,7 +135,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
-                <div id="dateRangeDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-80 lg:w-96 dark:bg-gray-700 dark:divide-gray-600">
+                <div id="dateRangeDropdown" class="z-10 hidden bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-80 lg:w-96 dark:bg-gray-700 dark:divide-gray-600">
                     <div class="p-3" aria-labelledby="dateRangeButton">
                         <div date-rangepicker datepicker-autohide class="flex items-center">
                             <div class="relative">
@@ -146,7 +144,7 @@
                                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                     </svg>
                                 </div>
-                                <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Start date">
+                                <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Start date">
                             </div>
                             <span class="mx-2 text-gray-500 dark:text-gray-400">to</span>
                             <div class="relative">
@@ -155,7 +153,7 @@
                                         <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                     </svg>
                                 </div>
-                                <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="End date">
+                                <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="End date">
                             </div>
                         </div>
                     </div>
@@ -166,7 +164,7 @@
                         <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                     </svg><span class="sr-only">Open dropdown</span>
                 </button>
-                <div id="widgetDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <div id="widgetDropdown" class="z-10 hidden bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="widgetDropdownButton">
                         <li>
                             <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><svg class="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
@@ -204,13 +202,13 @@
         <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
             <div class="flex justify-between items-center pt-5">
                 <!-- Button -->
-                <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown" data-dropdown-placement="bottom" class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white" type="button">
+                <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown" data-dropdown-placement="bottom" class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-white text-center inline-flex items-center dark:hover:text-white" type="button">
                     Last 7 days
                     <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
-                <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                <div id="lastDaysdropdown" class="z-10 hidden bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         <li>
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>

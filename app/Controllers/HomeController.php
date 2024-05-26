@@ -2,13 +2,21 @@
 
 namespace App\Controllers;
 
-class HomeController extends BaseController
+use CodeIgniter\Controller;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class HomeController extends Controller
 {
-    public function index(): string
+    public function index(): ResponseInterface
     {
         $data = [
             'title' => "Sistem Penilaian Karakter"
         ];
-        return view('login_page', $data);
+
+        if (!session('isLoggedIn')) {
+            return $this->response->setBody(view('login_page', $data));
+        }
+
+        return redirect()->to('/dashboard');
     }
 }

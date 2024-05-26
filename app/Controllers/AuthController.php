@@ -6,6 +6,13 @@ use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
+
     public function login()
     {
         $validation = \Config\Services::validation();
@@ -15,53 +22,54 @@ class AuthController extends BaseController
         ]);
 
         if ($validation->withRequest($this->request)->run()) {
-            $userModel = new UserModel();
-
             $email = $this->request->getPost('email');
             $password = $this->request->getPost('password');
 
             // Ambil data pengguna berdasarkan email
-            $user = $userModel->where('email', $email)->first();
+            $user = $this->userModel->where('email', $email)->first();
             /** @var string $password */
 
             if ($user) {
+                // Log email dan hash password untuk verifikasi
+                log_message('debug', 'Email: ' . $email);
+                log_message('debug', 'Input Password: ' . $password);
+                log_message('debug', 'Input Hashed Password: ' . password_hash($password, PASSWORD_DEFAULT));
+                log_message('debug', 'Hashed Password from DB: ' . $user['password']);
+                log_message('debug', 'email from DB: ' . $user['email']);
+                log_message('debug', 'Check Valid: ' . password_verify($password, $user['password']));
+                log_message('debug', 'Check Valid: ' . password_verify($password, $user['password']));
+
                 // Verifikasi password
-                if (password_verify($password, $user['password'])) {
+                $verifyResult = password_verify(trim($password), $user['password']);
+
+                if ($verifyResult) {
                     // Berhasil login, set session atau lakukan tindakan lainnya
-                    // Contoh: set session untuk user yang login
                     $session = session();
                     $session->set([
-                        // 'user_id' => $user['id'],
+                        'isLoggedIn' => true,
                         'email' => $user['email'],
-                        // Tambahkan data lain yang ingin Anda simpan dalam session
+                        'role' => $user['role'],
                     ]);
-                    // Redirect ke halaman dashboard atau halaman setelah login sukses
                     return redirect()->to('/dashboard');
                 } else {
                     // Password tidak cocok
-                    return redirect()->back()->withInput()->with('error', 'Password yang Anda masukkan salah.');
+                    return redirect()->to('/')->withInput()->with('error', 'Password yang Anda masukkan salah.');
                 }
             } else {
                 // Pengguna tidak ditemukan
-                return redirect()->back()->withInput()->with('error', 'Email yang Anda masukkan tidak terdaftar.');
+                return redirect()->to('/')->withInput()->with('error', 'Email yang Anda masukkan tidak terdaftar.');
             }
         } else {
             // Validasi gagal
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return redirect()->to('/')->withInput()->with('errors', $validation->getErrors());
         }
-
-        // Tampilkan halaman login jika tidak ada post data
-        return view('login_page');
     }
 
     // Metode logout
     public function logout()
     {
-        // Hapus session atau lakukan tindakan logout lainnya
         $session = session();
         $session->destroy();
-
-        // Redirect ke halaman login setelah logout
-        return redirect()->to('');
+        return redirect()->to('/');
     }
 }

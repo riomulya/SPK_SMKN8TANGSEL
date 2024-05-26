@@ -19,11 +19,20 @@ class GuruController extends BaseController
 
     public function index(): string
     {
-        $guru = $this->guruModel->findAll();
+        $keyword = $this->request->getVar('keyword');
+
+        if ($keyword) {
+            $guru = $this->guruModel->search($keyword);
+        } else {
+            $guru = $this->guruModel;
+        }
+
+        $guru = $this->guruModel->paginate(10, 'guru');
 
         $data = [
             'title' => 'Settings Data Guru',
-            'guru' => $guru
+            'guru' => $guru,
+            'pager' => $this->guruModel->pager
         ];
 
         return view('pages/settings/guru', $data);
@@ -52,9 +61,7 @@ class GuruController extends BaseController
         $tanggal_lahir = $this->request->getPost('tanggal_lahir');
         $jenis_kelamin = $this->request->getPost('jenis_kelamin');
         $kelas_mengajar = $this->request->getPost('kelas_mengajar');
-
-        // Ensure $password is assigned correctly
-        $password = str_replace('-', '', $tanggal_lahir);
+        $role = "guru";
 
         // Mulai transaksi
         $db = \Config\Database::connect();
@@ -64,12 +71,14 @@ class GuruController extends BaseController
         /** @var string $tanggal_lahir */
         $tanggal_lahir_formatted = date('Y-m-d', strtotime($tanggal_lahir));
 
+        $password = str_replace('-', '', $tanggal_lahir_formatted);
+
         try {
             // Insert ke tabel 'users'
             $userData = [
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_DEFAULT),
-                'role' => 'guru',
+                'role' => $role,
                 'createdAt' => date('Y-m-d H:i:s'),
                 'updatedAt' => date('Y-m-d H:i:s')
             ];
@@ -148,7 +157,7 @@ class GuruController extends BaseController
             ];
 
             // Generate password baru dari tanggal lahir
-            $password = str_replace('-', '', $tanggal_lahir);
+            $password = str_replace('-', '', $tanggal_lahir_formatted);
 
             // Insert user baru
             $userData = [
