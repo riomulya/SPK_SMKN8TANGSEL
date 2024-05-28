@@ -15,7 +15,7 @@ class PengakuanModel extends Model
 
     protected $allowedFields = [
         'id_pengakuan', 'pelaku', 'kategori', 'keterangan', 'poin',
-        'diakui', 'pelapor', 'updatedAt', 'createdAt'
+        'diakui', 'pelapor', "deskripsi", 'updatedAt', 'createdAt'
     ];
 
     protected $useTimestamps = true;
@@ -24,13 +24,14 @@ class PengakuanModel extends Model
     protected $dateFormat    = 'datetime';
 
     protected $validationRules    = [
-        'id_pengakuan' => 'required|alpha_numeric|min_length[3]|max_length[255]',
-        'pelaku'       => 'permit_empty|alpha_numeric_space|max_length[255]',
-        'kategori'     => 'required|alpha_numeric_space|max_length[255]',
-        'keterangan'   => 'permit_empty|string|max_length[255]',
+        'id_pengakuan' => 'required',
+        'pelaku'       => 'required',
+        'kategori'     => 'required',
+        'keterangan'   => 'required|string|max_length[255]',
         'poin'         => 'required|integer',
         'diakui'       => 'required|in_list[pending,tolak,terima]',
-        'pelapor'      => 'required|alpha_numeric_space|max_length[255]',
+        'pelapor'      => 'required',
+        'deskripsi'    => 'permit_empty',
     ];
 
     protected $validationMessages = [];

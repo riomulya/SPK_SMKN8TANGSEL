@@ -35,25 +35,4 @@ class SettingsController extends BaseController
 
         return view('pages/settings/guru', $data);
     }
-
-    // public function tataTertib(): string
-    // {
-    //     $tata_tertib = $this->tataTertibModel->findAll();
-    //     $data = [
-    //         'title' => 'Tata Tertib Siswa',
-    //         'tata_tertib' => $tata_tertib
-    //     ];
-    //     return view('pages/settings/tata_tertib', $data);
-    // }
-
-    // public function deleteTataTertib($id)
-    // {
-    //     try {
-    //         $this->tataTertibModel->delete($id);
-    //         return redirect()->to('/settings/tata-tertib')->with('success', 'Data berhasil dihapus.');
-    //     } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-    //         $error_message = "Tidak dapat menghapus item";
-    //         return redirect()->to('/settings/tata-tertib')->with('error', $error_message);
-    //     }
-    // }
 }

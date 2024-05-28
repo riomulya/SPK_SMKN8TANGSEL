@@ -7,6 +7,8 @@
 
     <link href="/css/app.css" rel="stylesheet">
 
+    <script src="/js/chart-min.js"></script>
+
     <script src="/js/flowbite-min.js"></script>
 
 </head>

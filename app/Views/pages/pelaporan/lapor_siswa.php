@@ -103,26 +103,26 @@ function showToast($type, $message)
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Nama Siswa
+                <th scope="col" class="px-6 py-3">
+                    Perilaku
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Nisn
+                <th scope="col" class="px-6 py-3">
+                    Poin
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
+                <th scope="col" class="px-6 py-3">
                     Email
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Kelas
+                <th scope="col" class="px-6 py-3">
+                    Poin
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Tanggal Lahir
+                <th scope="col" class="px-6 py-3">
+                    Poin
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Jenis Kelamin
+                <th scope="col" class="px-6 py-3">
+                    Poin
                 </th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
-                    Action
+                <th scope="col" class="px-6 py-3 text-center">
+                    Type
                 </th>
             </tr>
         </thead>
@@ -186,13 +186,13 @@ function showToast($type, $message)
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form action="<?= base_url('/lapor/siswa/penghargaan'); ?>" method="post" class="p-4 md:p-5" id="form-penghargaan">
+                <form action="<?= base_url('/lapor/siswa/penghargaan/' . $s['nisn']); ?>" method="post" class="p-4 md:p-5" id="form-penghargaan">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="penghargaan_type" value="penghargaan">
                     <div class="gap-4 mb-4 grid-cols-1 sm:grid-cols-2">
                         <div class="col-span-2 max-w-md mx-auto">
                             <label for="category_penghargaan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Penghargaan</label>
-                            <select id="category_penghargaan" name="state_penghargaan[]" multiple placeholder="Pilih penghargaan" autocomplete="off" class="bg-gray-600" required>
+                            <select id="category_penghargaan_<?= $s['nisn']; ?>" name="state_penghargaan[]" multiple placeholder="Pilih penghargaan" autocomplete="off" class="bg-gray-600" required>
                                 <?php foreach ($penghargaan as $ph) : ?>
                                     <option value="<?= $ph["id"]; ?>">
                                         <?= "(" . $ph["kategori"] . ") (" . $ph["keterangan"] . ")  (" . $ph["poin"] . ")" ?>
@@ -200,7 +200,8 @@ function showToast($type, $message)
                                 <?php endforeach ?>
                             </select>
                         </div>
-
+                        <label for="message" class="block my-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
+                        <textarea id="message" name="deskripsi" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis Deskripsi Perilaku"></textarea>
                     </div>
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Tambah Data
@@ -230,13 +231,13 @@ function showToast($type, $message)
                     </button>
                 </div>
                 <!-- Form for Pelanggaran -->
-                <form action="<?= base_url('/lapor/siswa/pelanggaran'); ?>" method="post" class="p-4 md:p-5">
+                <form action="<?= base_url('/lapor/siswa/pelanggaran/' .  $s['nisn']); ?>" method="post" class="p-4 md:p-5">
                     <?= csrf_field(); ?>
                     <input type="hidden" name="pelanggaran_type" value="pelanggaran">
                     <div class="gap-4 mb-4 grid-cols-1 sm:grid-cols-2">
                         <div class="col-span-2 max-w-md mx-auto">
                             <label for="category_pelanggaran" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih pelanggaran</label>
-                            <select id="category_pelanggaran" name="state_pelanggaran[]" multiple placeholder="Pilih pelanggaran" autocomplete="off" class="bg-gray-600" required>
+                            <select id="category_pelanggaran_<?= $s['nisn']; ?>" name="state_pelanggaran[]" multiple placeholder="Pilih pelanggaran" autocomplete="off" class="bg-gray-600" required>
                                 <?php foreach ($pelanggaran as $pl) : ?>
                                     <option value="<?= $pl["id"]; ?>">
                                         <?= "(" . $pl["kategori"] . ") (" . $pl["keterangan"] . ")  (" . $pl["poin"] . ")" ?>
@@ -244,6 +245,8 @@ function showToast($type, $message)
                                 <?php endforeach ?>
                             </select>
                         </div>
+                        <label for="message" class="block my-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
+                        <textarea id="message" name="deskripsi" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis Deskripsi Perilaku"></textarea>
                     </div>
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Tambah Data
@@ -258,24 +261,27 @@ function showToast($type, $message)
 <script src="/js/tom-select.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize TomSelect for each multiple select element
-        var select_penghargaan = new TomSelect("#category_penghargaan", {
-            create: true,
-            sortField: {
-                field: "text",
-                direction: "asc"
-            },
-        });
+    <?php foreach ($siswa as $s) : ?>
 
-        var select_pelanggaran = new TomSelect("#category_pelanggaran", {
-            create: true,
-            sortField: {
-                field: "text",
-                direction: "asc"
-            },
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize TomSelect for each multiple select element
+            var select_penghargaan = new TomSelect("#category_penghargaan_<?= $s['nisn']; ?>", {
+                create: true,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+            });
+
+            var select_pelanggaran = new TomSelect("#category_pelanggaran_<?= $s['nisn']; ?>", {
+                create: true,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+            });
         });
-    });
+    <?php endforeach ?>
 </script>
 
 

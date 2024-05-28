@@ -5,6 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+$routes->set404Override('App\Controllers\ErrorController::show404');
+
 $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
     $routes->get('/dashboard', 'DashboardController::index');
 
@@ -15,6 +18,12 @@ $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
 
     $routes->get('/lapor', 'LaporController::index');
     $routes->post('/lapor', 'LaporController::index');
+
+    $routes->get('/daftar-perilaku', 'DetailPerilakuController::index');
+    $routes->post('/daftar-perilaku', 'DetailPerilakuController::index');
+
+    $routes->post('/lapor/siswa/penghargaan/(:any)', 'LaporController::insertPenghargaan/$1');
+    $routes->post('/lapor/siswa/pelanggaran/(:any)', 'LaporController::insertPelanggaran/$1');
 
 
     $routes->group('settings', ['filter' => 'rbac'], function ($routes) {
