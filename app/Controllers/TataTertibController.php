@@ -5,6 +5,10 @@ namespace App\Controllers;
 use App\Models\TataTertibModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use Ramsey\Uuid\Uuid;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 
 class TataTertibController extends BaseController
@@ -136,5 +140,55 @@ class TataTertibController extends BaseController
                 return redirect()->to('/settings/tata-tertib')->with('error', 'Gagal memperbarui data.');
             }
         }
+    }
+
+    public function export()
+    {
+        $tataTertib = $this->tataTertibModel->findAll();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $headers = ['ID', 'Keterangan', 'Kategori', 'Poin', 'Type'];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $col++;
+        }
+
+        // Styling header
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:E1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFE599');
+        $sheet->getStyle('A1:E1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+        // Data
+        $row = 2;
+        foreach ($tataTertib as $tt) {
+            $sheet->setCellValue('A' . $row, $tt['id']);
+            $sheet->setCellValue('B' . $row, $tt['keterangan']);
+            $sheet->setCellValue('C' . $row, $tt['kategori']);
+            $sheet->setCellValue('D' . $row, $tt['poin']);
+            $sheet->setCellValue('E' . $row, $tt['type']);
+
+            // Styling data rows
+            $sheet->getStyle('A' . $row . ':E' . $row)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+            $row++;
+        }
+
+        // Set column widths
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'data_tata_tertib.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
     }
 }

@@ -5,6 +5,10 @@ namespace App\Controllers;
 use App\Models\GuruModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class GuruController extends BaseController
 {
@@ -242,5 +246,56 @@ class GuruController extends BaseController
             log_message('error', 'Kesalahan database: ' . $e->getMessage());
             return redirect()->to('/settings/guru')->with('error', 'Data digunakan di table lain');
         }
+    }
+
+    public function export()
+    {
+        $guru = $this->guruModel->findAll();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $headers = ['NIP', 'Email', 'Nama', 'Tanggal Lahir', 'Jenis Kelamin', 'Kelas Mengajar'];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $col++;
+        }
+
+        // Styling header
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:F1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFE599');
+        $sheet->getStyle('A1:F1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+        // Data
+        $row = 2;
+        foreach ($guru as $g) {
+            $sheet->setCellValue('A' . $row, $g['nip']);
+            $sheet->setCellValue('B' . $row, $g['email']);
+            $sheet->setCellValue('C' . $row, $g['nama']);
+            $sheet->setCellValue('D' . $row, $g['tanggal_lahir']);
+            $sheet->setCellValue('E' . $row, $g['jenis_kelamin']);
+            $sheet->setCellValue('F' . $row, $g['kelas_mengajar']);
+
+            // Styling data rows
+            $sheet->getStyle('A' . $row . ':F' . $row)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+            $row++;
+        }
+
+        // Set column widths
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'data_guru.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
     }
 }

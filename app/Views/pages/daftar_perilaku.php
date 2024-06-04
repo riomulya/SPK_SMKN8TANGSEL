@@ -143,13 +143,23 @@ function showToast($type, $message)
                     <td class="px-6 py-4 ">
                         <?= $item["pengakuan"]["keterangan"]; ?>
                     </td>
-                    <td class="px-6 py-4 ">
-                        <button data-modal-target="popup-modal<?= $item["detail_perilaku"]['id_perilaku']; ?>" data-modal-toggle="popup-modal<?= $item["detail_perilaku"]['id_perilaku']; ?>" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                            <a class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                                Delete
-                            </a>
-                        </button>
-                    </td>
+                    <?php if (session('role') == 'admin' || session('role') == 'guru') : ?>
+                        <td class="px-6 py-4 ">
+                            <button data-modal-target="popup-modal<?= $item["detail_perilaku"]['id_perilaku']; ?>" data-modal-toggle="popup-modal<?= $item["detail_perilaku"]['id_perilaku']; ?>" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                                <a class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    Delete
+                                </a>
+                            </button>
+                        </td>
+                    <?php else : ?>
+                        <td class="px-6 py-4 ">
+                            <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-300 to-orange-400 group-hover:from-pink-300 group-hover:to-orange-200 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-300">
+                                <a href="/detail-siswa/<?= $item["detail_perilaku"]["nisn"]; ?>" class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                    Lihat
+                                </a>
+                            </button>
+                        </td>
+                    <?php endif ?>
                 </tr>
 
                 <!-- Delete Alert -->
@@ -167,7 +177,7 @@ function showToast($type, $message)
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin akan menghapus data <?= $item["siswa"]['nama'] . "  melakukan " . $item["pengakuan"]['keterangan']; ?>?</h3>
-                                <form action="<?= base_url('/daftar-perilaku/delete/' . $item["detail_perilaku"]['id_pengakuan'] . '/' . $item['detail_perilaku']['id_perilaku']); ?>" method="post" class="inline">
+                                <form action="<?= base_url('/daftar-perilaku/delete/' . $item['detail_perilaku']['id_perilaku']); ?>" method="post" class="inline">
                                     <?= csrf_field(); ?>
                                     <button data-modal-hide="popup-modal<?= $item["detail_perilaku"]['id_perilaku']; ?>" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                                         Ya saya yakin

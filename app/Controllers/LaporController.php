@@ -9,7 +9,6 @@ use App\Models\PengakuanModel;
 use App\Models\DetailPerilakuModel;
 use Ramsey\Uuid\Uuid;
 
-
 class LaporController extends BaseController
 {
     protected $siswaModel;
@@ -95,7 +94,6 @@ class LaporController extends BaseController
                     'createdAt' => date('Y-m-d H:i:s'),
                 ];
 
-
                 $this->pengakuanModel->insert($data_pelanggaran);
 
                 $this->detailPerilakuModel->insert($data_detail_perilaku);
@@ -109,22 +107,21 @@ class LaporController extends BaseController
                 // Memasukkan detail tata tertib ke dalam array
                 $detailTataTertib[] = $detail;
                 $count++;
-                $message .= "$count." . $detail["keterangan"] . " ";
+                $message .= "<li>" . $detail["keterangan"] . "</li>";
             }
 
-            $this->sentEmail($siswa["email"], 'riomulya79@gmail.com', "Anda Melakukan Perilaku Negatif", $deskripsi . $message);
+            $emailContent = $this->createEmailTemplate("Anda Melakukan Perilaku Negatif", $deskripsi . "<ul>" . $message . "</ul>", 'negative');
+            $this->sentEmail($siswa["email"], 'riomulya79@gmail.com', "Anda Melakukan Perilaku Negatif", $emailContent);
             $message = 'Berhasil melapor ' . $count . ' pelanggaran';
-            return redirect()->to('/lapor')->with('success', $message);
+            return redirect()->back()->with('success', $message);
         } catch (\Throwable $th) {
-            echo 'Error: ' . $th->getMessage();
-            // return redirect()->to('/lapor')->with('error', 'Terjadi kesalahan saat melapor');
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat melapor');
         }
     }
 
     public function insertPenghargaan($idSiswa)
     {
         $penghargaan = $this->request->getVar('state_penghargaan');
-        // $tataTertibModel = new TataTertibModel();
 
         try {
             $count = 0;
@@ -166,7 +163,6 @@ class LaporController extends BaseController
                     'createdAt' => date('Y-m-d H:i:s'),
                 ];
 
-
                 $this->pengakuanModel->insert($data_penghargaan);
 
                 $this->detailPerilakuModel->insert($data_detail_perilaku);
@@ -177,31 +173,61 @@ class LaporController extends BaseController
                     'poin' => $poinSebelum + $detail['poin'],
                 ];
                 $this->siswaModel->update($idSiswa, $poinSesudah);
-                // Memasukkan detail tata tertib ke dalam array
-                $detailTataTertib[] = $detail;
+
                 $count++;
-                $message .= "$count." . $detail["keterangan"] . " ";
+                $message .= "<li>" . $detail["keterangan"] . "</li>";
             }
 
-            $this->sentEmail($siswa["email"], 'riomulya79@gmail.com', "Anda Melakukan Perilaku Positif", $deskripsi . $message);
+            $emailContent = $this->createEmailTemplate("Anda Melakukan Perilaku Positif", $deskripsi . "<ul>" . $message . "</ul>", 'positive');
+            $this->sentEmail($siswa["email"], 'riomulya79@gmail.com', "Anda Melakukan Perilaku Positif", $emailContent);
             $message = 'Berhasil melapor ' . $count . ' penghargaan';
             return redirect()->to('/lapor')->with('success', $message);
         } catch (\Throwable $th) {
-            echo 'Error: ' . $th->getMessage();
-            // return redirect()->to('/lapor')->with('error', 'Terjadi kesalahan saat melapor');
+            return redirect()->to('/lapor')->with('error', 'Terjadi kesalahan saat melapor');
         }
     }
 
+    public function createEmailTemplate($subject, $body, $type)
+    {
+        $color = $type === 'positive' ? '#4CAF50' : '#F44336';
+
+        $template = "
+            <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+                    .header { background-color: $color; color: #ffffff; padding: 20px; text-align: center; }
+                    .header h2 { margin: 0; }
+                    .content { padding: 20px; color: #333333; }
+                    .footer { background-color: #f4f4f4; color: #666666; padding: 10px; text-align: center; border-top: 1px solid #e6e6e6; }
+                    .footer p { margin: 0; }
+                    ul { padding-left: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h2>$subject</h2>
+                    </div>
+                    <div class='content'>
+                        <p>$body</p>
+                    </div>
+                    <div class='footer'>
+                        <p>Terima kasih atas perhatian Anda.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        ";
+        return $template;
+    }
 
     public function sentEmail($penerima, $pengirim, $subject, $message)
     {
-        $recipient_email = $penerima;
-        $subject = $subject;
-        $message = $message;
-
         $email = \Config\Services::email();
 
-        $email->setTo($recipient_email);
+        $email->setTo($penerima);
         $email->setFrom($pengirim);
         $email->setSubject($subject);
         $email->setMessage($message);

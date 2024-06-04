@@ -103,23 +103,23 @@ function showToast($type, $message)
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Perilaku
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Poin
+                <th scope="col" class="px-6 py-3 text-center">
+                    Nisn
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Email
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Poin
+                <th scope="col" class="px-6 py-3 text-center">
+                    Kelas
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Poin
+                <th scope="col" class="px-6 py-3 text-center">
+                    Tanggal Lahir
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Poin
+                <th scope="col" class="px-6 py-3 text-center">
+                    Jenis Kelamin
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
                     Type
@@ -128,9 +128,7 @@ function showToast($type, $message)
         </thead>
         <tbody>
             <?php foreach ($siswa as $s) : ?>
-
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900">
-
+                <tr data-href="/detail-siswa/<?= $s['nisn']; ?>" class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900">
                     <th scope="row" class="px-6 py-4 font-medium text-xl text-center text-gray-900 whitespace-nowrap dark:text-white">
                         <?= $s['nama']; ?>
                     </th>
@@ -162,7 +160,7 @@ function showToast($type, $message)
                         </button>
                     </td>
                 </tr>
-            <?php endforeach ?>
+            <?php endforeach; ?>
         </tbody>
     </table>
     <?= $pager->links("siswa", "custom_pagination"); ?>
@@ -282,6 +280,15 @@ function showToast($type, $message)
             });
         });
     <?php endforeach ?>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const rows = document.querySelectorAll("tr[data-href]");
+        rows.forEach(row => {
+            row.addEventListener("click", function() {
+                window.location.href = this.dataset.href;
+            });
+        });
+    });
 </script>
 
 

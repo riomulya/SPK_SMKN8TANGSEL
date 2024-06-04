@@ -10,9 +10,7 @@ $routes->set404Override('App\Controllers\ErrorController::show404');
 
 $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
     $routes->get('/dashboard', 'DashboardController::index');
-
-    $routes->get('/daftar-siswa', 'SiswaController::daftarSiswa');
-    $routes->get('/daftar-siswa/(:num)', 'SiswaController::detailSiswa/$1');
+    $routes->get('/ranking', 'DashboardController::ranking');
 
     $routes->get('/detail-siswa/(:any)', 'SiswaController::detailSiswa/$1');
 
@@ -21,6 +19,7 @@ $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
 
     $routes->get('/daftar-perilaku', 'DetailPerilakuController::index');
     $routes->post('/daftar-perilaku', 'DetailPerilakuController::index');
+    $routes->post('/daftar-perilaku/delete/(:any)', 'DetailPerilakuController::delete/$1');
 
     $routes->post('/lapor/siswa/penghargaan/(:any)', 'LaporController::insertPenghargaan/$1');
     $routes->post('/lapor/siswa/pelanggaran/(:any)', 'LaporController::insertPelanggaran/$1');
@@ -28,6 +27,8 @@ $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
 
     $routes->group('settings', ['filter' => 'rbac'], function ($routes) {
         $routes->get('tata-tertib', 'TataTertibController::index');
+        $routes->get('tata-tertib/export', 'TataTertibController::export');
+        $routes->post('tata-tertib/import', 'ImportController::importDataTataTertib');
 
         $routes->post('tata-tertib', 'TataTertibController::index');
         $routes->post('tata-tertib/delete/(:any)', 'TataTertibController::delete/$1');
@@ -35,6 +36,8 @@ $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
         $routes->post('tata-tertib/update/(:any)', 'TataTertibController::update/$1');
 
         $routes->get('siswa', 'SiswaController::index');
+        $routes->get('siswa/export', 'SiswaController::export');
+        $routes->post('siswa/import', 'ImportController::importDataSiswa');
 
         $routes->post('siswa', 'SiswaController::index');
         $routes->post('siswa/delete/(:any)', 'SiswaController::delete/$1');
@@ -42,6 +45,9 @@ $routes->group('', ['filter' => 'isLoggedIn'], function ($routes) {
         $routes->post('siswa/update/(:any)', 'SiswaController::update/$1');
 
         $routes->get('guru', 'GuruController::index');
+        $routes->get('guru/export', 'GuruController::export');
+        $routes->post('guru/import', 'ImportController::importDataGuru');
+
 
         $routes->post('guru', 'GuruController::index');
         $routes->post('guru/delete/(:any)', 'GuruController::delete/$1');

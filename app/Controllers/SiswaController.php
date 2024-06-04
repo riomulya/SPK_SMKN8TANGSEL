@@ -4,17 +4,28 @@ namespace App\Controllers;
 
 use App\Models\SiswaModel;
 use App\Models\UserModel;
+use App\Models\PengakuanModel;
+use App\Models\TataTertibModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use CodeIgniter\Exceptions\PageNotFoundException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class SiswaController extends BaseController
 {
     protected $siswaModel;
     protected $userModel;
+    protected $pengakuanModel;
+    protected $tataTertibModel;
 
     public function __construct()
     {
         $this->siswaModel = new SiswaModel();
         $this->userModel = new UserModel();
+        $this->pengakuanModel = new PengakuanModel();
+        $this->tataTertibModel = new TataTertibModel();
     }
 
     public function index(): string
@@ -48,17 +59,34 @@ class SiswaController extends BaseController
         return view('pages/daftar_siswa', $data);
     }
 
-    public function detailSiswa($nisn): string
+    public function detailSiswa($nisn)
     {
         $siswa = $this->siswaModel->find($nisn);
-
+        if (!$siswa) {
+            throw new PageNotFoundException("Siswa dengan NISN $nisn tidak ditemukan");
+        }
+        $perilaku_siswa = $this->pengakuanModel->where('pelaku', $nisn)->where('diakui', 'terima')->findAll();
+        $penghargaan = $this->tataTertibModel->getRewards();
+        $pelanggaran = $this->tataTertibModel->getViolations();
         $data = [
             'title' => 'Daftar Siswa',
-            'siswa' => $siswa
+            'siswa' => $siswa,
+            'perilaku_siswa' => $perilaku_siswa,
+            'chartDataPerilakuSiswa' => $this->getChartByMonth($nisn),
+            'penghargaan' => $penghargaan,
+            'pelanggaran' => $pelanggaran
         ];
 
+        if (!empty($this->getChartByMonth($nisn))) {
+            // Jika $chartDataPerilakuSiswa tidak kosong, kirimkan ke view
+            // return  print_r($this->getChartByMonth($nisn));
+            return view('/pages/dashboard/dashboard_siswa', $data);
+        } else {
+            // Jika $chartDataPerilakuSiswa kosong, lakukan sesuatu, misalnya tampilkan pesan error
+            echo "Data chart perilaku siswa kosong";
+        }
 
-        return view('pages/detail_siswa', $data);
+        // return view('/pages/dashboard/dashboard_siswa', $data);
     }
     public function delete($id)
     {
@@ -275,5 +303,105 @@ class SiswaController extends BaseController
             $db->transRollback();
             return redirect()->to('/settings/siswa')->with('error', 'Gagal memperbarui data siswa: ' . $e->getMessage());
         }
+    }
+
+    //TODO: mengambil data pengakuan penghargaan dan pelanggaran 
+    //TODO: berdasarkan 3 bulan terakhir
+    public function getChartByMonth($nisn)
+    {
+
+        // Mengambil data penghargaan dan pelanggaran untuk siswa dengan $nisn dari tanggal tiga bulan yang lalu hingga sekarang
+        $rewardData = $this->pengakuanModel
+            ->select("MONTH(createdAt) as month, SUM(poin) as total_poin")
+            ->where('diakui', 'terima')
+            ->where('poin >', 0)
+            ->where('pelaku', $nisn)
+
+            ->groupBy('MONTH(createdAt)')
+            ->findAll();
+
+        $violationData = $this->pengakuanModel
+            ->select("MONTH(createdAt) as month, SUM(ABS(poin)) as total_poin")
+            ->where('diakui', 'terima')
+            ->where('poin <', 0)
+            ->where('pelaku', $nisn)
+
+            ->groupBy('MONTH(createdAt)')
+            ->findAll();
+
+        // Mengisi bulan-bulan yang tidak memiliki data dengan total poin 0
+        // Inisialisasi array tetap untuk bulan-bulan dalam setahun
+        $months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $rewardMap = array_fill_keys($months, 0);
+        $violationMap = array_fill_keys($months, 0);
+
+        // Mengisi nilai total poin dari data pengakuan
+        foreach ($rewardData as $record) {
+            $month = $months[$record['month'] - 1];
+            $rewardMap[$month] = $record['total_poin'];
+        }
+
+        foreach ($violationData as $record) {
+            $month = $months[$record['month'] - 1];
+            $violationMap[$month] = $record['total_poin'];
+        }
+
+        // Mengembalikan data dalam bentuk array asosiatif
+        return [
+            'rewardData' => array_values($rewardMap),
+            'violationData' => array_values($violationMap)
+        ];
+    }
+
+    public function export()
+    {
+        $siswa = $this->siswaModel->findAll();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Header
+        $headers = ['NISN', 'Email', 'Nama', 'Tanggal Lahir', 'Jenis Kelamin', 'Kelas', 'Poin'];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $col++;
+        }
+
+        // Styling header
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:G1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFFE599');
+        $sheet->getStyle('A1:G1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+        // Data
+        $row = 2;
+        foreach ($siswa as $s) {
+            $sheet->setCellValue('A' . $row, $s['nisn']);
+            $sheet->setCellValue('B' . $row, $s['email']);
+            $sheet->setCellValue('C' . $row, $s['nama']);
+            $sheet->setCellValue('D' . $row, $s['tanggal_lahir']);
+            $sheet->setCellValue('E' . $row, $s['jenis_kelamin']);
+            $sheet->setCellValue('F' . $row, $s['kelas']);
+            $sheet->setCellValue('G' . $row, $s['poin']);
+
+            // Styling data rows
+            $sheet->getStyle('A' . $row . ':G' . $row)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+            $row++;
+        }
+
+        // Set column widths
+        foreach (range('A', 'G') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'data_siswa.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
     }
 }
