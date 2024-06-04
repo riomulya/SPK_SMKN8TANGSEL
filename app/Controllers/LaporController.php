@@ -179,7 +179,7 @@ class LaporController extends BaseController
             }
 
             $emailContent = $this->createEmailTemplate("Anda Melakukan Perilaku Positif", $deskripsi . "<ul>" . $message . "</ul>", 'positive');
-            $this->sentEmail($siswa["email"], 'riomulya79@gmail.com', "Anda Melakukan Perilaku Positif", $emailContent);
+            $this->sentEmail($siswa["email"], 'joygaming765@gmail.com', "Anda Melakukan Perilaku Positif", $emailContent);
             $message = 'Berhasil melapor ' . $count . ' penghargaan';
             return redirect()->to('/lapor')->with('success', $message);
         } catch (\Throwable $th) {
@@ -190,7 +190,8 @@ class LaporController extends BaseController
     public function createEmailTemplate($subject, $body, $type)
     {
         $color = $type === 'positive' ? '#4CAF50' : '#F44336';
-
+        $sub = $type === 'positive' ? '<p>Terima kasih telah melakukan hal baik</p>' : '<p>Anda melakukan tindakan yang meanggar peraturan sekolah</p>';
+        $foot = $type === 'positive' ? '<p>Tingkatkan dan pertahankan lagi prestasi anda</p>' : '<p>Tingkatkan lagi prestasi anda untuk mengembalikan poin anda , jika anda tidak merasa melakukan perbuatan ini laporkan ke bagian admin</p>';
         $template = "
             <html>
             <head>
@@ -210,8 +211,14 @@ class LaporController extends BaseController
                     <div class='header'>
                         <h2>$subject</h2>
                     </div>
+                    <div class='sub'>
+                        $sub
+                    </div>
                     <div class='content'>
                         <p>$body</p>
+                    </div>
+                    <div class='foot'>
+                        $foot
                     </div>
                     <div class='footer'>
                         <p>Terima kasih atas perhatian Anda.</p>

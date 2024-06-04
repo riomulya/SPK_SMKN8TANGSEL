@@ -88,7 +88,6 @@ class DashboardController extends BaseController
 
     /**  
      * TODO: mengambil data pengakuan penghargaan dan pelanggaran 
-     * TODO: berdasarkan 3 bulan terakhir
      */
 
     public function getChartByMonth($nisn)
@@ -176,6 +175,11 @@ class DashboardController extends BaseController
         return view('/pages/dashboard/dashboard_admin', $data);
     }
 
+
+    /**  
+     * TODO: mengambil data pengakuan penghargaan dan pelanggaran 
+     * TODO: semua pelaku berdasarkan pe bulannya
+     */
     public function getChartByMonthAll()
     {
         // Mengambil data penghargaan untuk semua pelaku, dihitung berdasarkan bulan
