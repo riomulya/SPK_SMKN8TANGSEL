@@ -28,7 +28,7 @@ class DashboardController extends BaseController
             ->findAll();
 
         // TODO: Prepare data for the chart
-        $chartData = $this->prepareChartData($data);
+        $chartData = $this->getChartByMonthAll();
 
         $data = [
             'title' => "Dashboard Penilaian Karakter",
@@ -47,10 +47,10 @@ class DashboardController extends BaseController
                 ->countAllResults(),
             'siswa_tertinggi' => $this->siswaModel
                 ->orderBy('poin', 'DESC')
-                ->findAll(5),
+                ->findAll(10),
             'siswa_terendah' => $this->siswaModel
                 ->orderBy('poin', 'ASC')
-                ->findAll(5),
+                ->findAll(10),
             'chartData' => $chartData,
             'pengakuan' => $this->pengakuanModel->where('diakui', 'terima')->findAll(),
         ];
@@ -137,7 +137,6 @@ class DashboardController extends BaseController
         ];
     }
 
-
     public function ranking()
     {
         //? Fetch and group data by 'keterangan'
@@ -148,7 +147,7 @@ class DashboardController extends BaseController
             ->findAll();
 
         // TODO: Prepare data for the chart
-        $chartData = $this->prepareChartData($data);
+        $chartData = $this->getChartByMonthAll();
 
         $data = [
             'title' => "Dashboard Penilaian Karakter",
@@ -167,15 +166,55 @@ class DashboardController extends BaseController
                 ->countAllResults(),
             'siswa_tertinggi' => $this->siswaModel
                 ->orderBy('poin', 'DESC')
-                ->findAll(5),
+                ->findAll(10),
             'siswa_terendah' => $this->siswaModel
                 ->orderBy('poin', 'ASC')
-                ->findAll(5),
+                ->findAll(10),
             'chartData' => $chartData,
             'pengakuan' => $this->pengakuanModel->where('diakui', 'terima')->findAll(),
         ];
-
-
         return view('/pages/dashboard/dashboard_admin', $data);
+    }
+
+    public function getChartByMonthAll()
+    {
+        // Mengambil data penghargaan untuk semua pelaku, dihitung berdasarkan bulan
+        $rewardData = $this->pengakuanModel
+            ->select("MONTH(createdAt) as month, COUNT(pelaku) as total_pelaku")
+            ->where('diakui', 'terima')
+            ->where('poin >', 0)
+            ->groupBy('MONTH(createdAt)')
+            ->findAll();
+
+        // Mengambil data pelanggaran untuk semua pelaku, dihitung berdasarkan bulan
+        $violationData = $this->pengakuanModel
+            ->select("MONTH(createdAt) as month, COUNT(pelaku) as total_pelaku")
+            ->where('diakui', 'terima')
+            ->where('poin <', 0)
+            ->groupBy('MONTH(createdAt)')
+            ->findAll();
+
+        // Inisialisasi array tetap untuk bulan-bulan dalam setahun
+        $months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $rewardMap = array_fill_keys($months, 0);
+        $violationMap = array_fill_keys($months, 0);
+
+        // Mengisi nilai total pelaku dari data penghargaan
+        foreach ($rewardData as $record) {
+            $month = $months[$record['month'] - 1];
+            $rewardMap[$month] = $record['total_pelaku'];
+        }
+
+        // Mengisi nilai total pelaku dari data pelanggaran
+        foreach ($violationData as $record) {
+            $month = $months[$record['month'] - 1];
+            $violationMap[$month] = $record['total_pelaku'];
+        }
+
+        // Mengembalikan data dalam bentuk array asosiatif
+        return [
+            'rewardData' => array_values($rewardMap),
+            'violationData' => array_values($violationMap)
+        ];
     }
 }

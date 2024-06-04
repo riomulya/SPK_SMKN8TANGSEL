@@ -74,90 +74,104 @@
         </div>
     </div>
 
+    <div class="mx-4">
 
-
-    <!-- Website traffic -->
-    <div class="max-w-sm mx-auto w-full bg-slate-800 rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-
-        <div class="flex justify-between items-start w-full">
-            <div class="flex-col items-center">
-                <div class="flex items-center mb-1">
-                    <h5 class="text-xl font-bold leading-none text-white dark:text-white me-1">Diagram Perilaku</h5>
+        <div class="max-w-lg p-10 w-full bg-white rounded-lg shadow dark:bg-gray-800 md:p-6 mx-auto">
+            <div class="flex justify-between mb-5">
+                <div class="grid gap-4 grid-cols-2">
+                    <div>
+                        <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none mb-2 font-bold text-2xl">Statistic
+                        </h5>
+                    </div>
                 </div>
             </div>
+            <div id="line-chart"></div>
         </div>
-        <!-- Line Chart -->
-        <div class="py-6" id="pie-chart"></div>
     </div>
 </div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 <script>
     const chartData = <?= json_encode($chartData) ?>;
-    const totalData = <?= $total_pelanggaran + $total_penghargaan ?>;
 
-    const getChartOptions = () => {
-        const seriesPercentage = chartData.series.map(value => Math.round((value / totalData) * 100));
 
-        return {
-            series: seriesPercentage,
-            colors: ["#1C64F2", "#16BDCA", "#9061F9", "#FF4560", "#FEB019", '#FF7F50', '#800000', '#FFD700'],
-            chart: {
-                height: 420,
-                width: "100%",
-                type: "pie",
+    const options = {
+        chart: {
+            height: "100%",
+            maxWidth: "100%",
+            type: "line",
+            fontFamily: "Inter, sans-serif",
+            dropShadow: {
+                enabled: false,
             },
-            stroke: {
-                colors: ["white"],
-                lineCap: "",
+            toolbar: {
+                show: false,
             },
-            plotOptions: {
-                pie: {
-                    labels: {
-                        show: true,
-                    },
-                    size: "100%",
-                    dataLabels: {
-                        offset: -25
-                    }
-                },
+        },
+        tooltip: {
+            enabled: true,
+            x: {
+                show: false,
             },
-            labels: [...chartData.labels],
-            dataLabels: {
-                enabled: true,
+        },
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            width: 10,
+        },
+        grid: {
+            show: true,
+            strokeDashArray: 4,
+            padding: {
+                left: 2,
+                right: 2,
+                top: -26
+            },
+        },
+        series: [{
+                name: "Total Penghargaan",
+                data: [...chartData.rewardData],
+                color: "#00ff00",
+            },
+            {
+                name: "Total Pelanggaran",
+                data: [...chartData.violationData],
+                color: "#FF0000",
+            },
+        ],
+        legend: {
+            show: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: {
+                show: true,
                 style: {
                     fontFamily: "Inter, sans-serif",
-                },
+                    cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                }
             },
-            legend: {
-                position: "bottom",
-                fontFamily: "Inter, sans-serif",
+            axisBorder: {
+                show: false,
             },
-            yaxis: {
-                labels: {
-                    formatter: function(value) {
-                        return value + "%"
-                    },
-                },
+            axisTicks: {
+                show: false,
             },
-            xaxis: {
-                labels: {
-                    formatter: function(value) {
-                        return value + "%"
-                    },
-                },
-                axisTicks: {
-                    show: false,
-                },
-                axisBorder: {
-                    show: false,
-                },
-            },
-        }
+        },
+        yaxis: {
+            show: false,
+        },
     }
 
-    if (document.getElementById("pie-chart") && typeof ApexCharts !== 'undefined') {
-        const chart = new ApexCharts(document.getElementById("pie-chart"), getChartOptions());
+    if (document.getElementById("line-chart") && typeof ApexCharts !== 'undefined') {
+        const chart = new ApexCharts(document.getElementById("line-chart"), options);
         chart.render();
     }
 </script>
