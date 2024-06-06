@@ -169,8 +169,8 @@ function showToast($type, $message)
         </thead>
         <tbody>
             <?php foreach ($siswa as $s) : ?>
-                <tr data-href="/detail-siswa/<?= $s['nisn']; ?>" class="bg-white cursor-pointer border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900">
-                    <th scope="row" class="px-6 py-4 font-medium text-xl text-center text-gray-900 whitespace-nowrap dark:text-white">
+                <tr class="bg-white  border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900">
+                    <th data-href="/detail-siswa/<?= $s['nisn']; ?>" scope="row" class="cursor-pointer px-6 py-4 font-medium text-xl text-center text-gray-900 whitespace-nowrap dark:text-white">
                         <?= $s['nama']; ?>
                     </th>
                     <td class="px-6 py-4 text-xl text-center">
@@ -411,7 +411,7 @@ function showToast($type, $message)
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const rows = document.querySelectorAll("tr[data-href]");
+        const rows = document.querySelectorAll("th[data-href]");
         rows.forEach(row => {
             row.addEventListener("click", function() {
                 window.location.href = this.dataset.href;
